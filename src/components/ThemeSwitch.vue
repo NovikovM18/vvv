@@ -24,13 +24,17 @@
     const root = document.documentElement
     switch (type) {
       case 'dark':
+        root.style.setProperty('--header--bg-color', '#333')
         root.style.setProperty('--bg-color', '#666')
-        root.style.setProperty('--text-color', '#fff')
+        root.style.setProperty('--text-color', '#FFF')
+        root.style.setProperty('--link-color', '#70C0E8')
         
         break;
-        case 'light':
-          root.style.setProperty('--bg-color', '#eee')
+      case 'light':
+          root.style.setProperty('--header--bg-color', '#CCC')
+          root.style.setProperty('--bg-color', '#EEE')
           root.style.setProperty('--text-color', '#000')
+          root.style.setProperty('--link-color', '#2080F0')
         
         break;
     

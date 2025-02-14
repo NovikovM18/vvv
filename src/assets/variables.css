@@ -1,4 +1,15 @@
 :root {
+	--padding: 2rem;
+
 	--bg-color: #666;
-	--text-color: #fff;
+	--text-color: #FFF;
+	--link-color: #70C0E8;
+	--header--bg-color: #333;
+}
+
+
+@media (max-width: 512px) {
+  :root {
+    --padding: 1rem;
+  }
 }

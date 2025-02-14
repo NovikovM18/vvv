@@ -1,14 +1,28 @@
 @import'./assets/variables.css';
 
-#app {
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  max-width: 1280px;
+  transition: background-color 333ms ease-in-out;
+}
+
+#app {
+  width: 100%;
   min-height: 100dvh;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
   background-color: var(--bg-color);
   color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.view-container {
+  padding: var(--padding);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }
 
 

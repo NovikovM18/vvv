@@ -6,7 +6,6 @@
   
   const themeStore = useThemeStore()
 
-
   onMounted(() => {
     console.log('themeStore', themeStore);
     console.log('LS', localStorage.getItem('vvv--selectedTheme'));
@@ -19,20 +18,26 @@
   <n-config-provider :theme="themeStore.selectedTheme === 'dark' ? darkTheme : lightTheme">
     <Header />
 
-    <div>
-      <h1>comming soon</h1>
-      <p>{{ themeStore.selectedTheme }}</p>
-      
-        <!-- <img src="/vite.svg" class="logo" alt="Vite logo" /> ---PUBLIC
-        <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" /> ---ASSETS -->
-      
-      <n-button type="primary">
-        Primary
-      </n-button>
-    </div>
+    <router-view v-slot="{ Component }">
+      <Transition name="router-view" mode="out-in">
+        <component :is="Component" />
+      </Transition>
+    </router-view>    
   </n-config-provider>
 </template>
 
 <style>
-
+  .router-view-enter-active,
+  .router-view-leave-active {
+    transition: all 333ms ease-in-out;
+    will-change: transform, opacity;
+  }
+  .router-view-enter-from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  .router-view-leave-to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
 </style>
