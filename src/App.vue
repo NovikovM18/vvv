@@ -7,8 +7,9 @@
   const themeStore = useThemeStore()
 
   onMounted(() => {
-    console.log('themeStore', themeStore);
-    console.log('LS', localStorage.getItem('vvv--selectedTheme'));
+    // console.log('VITE_ENV', import.meta.env);
+    // console.log('themeStore', themeStore);
+    // console.log('LS', localStorage.getItem('vvv--selectedTheme'));
     
   })
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Login from '../components/auth/Login.vue';
+
 </script>
 
 <template>
@@ -9,6 +11,8 @@
     <n-button type="info">Info</n-button>
 
     <n-input type="text" placeholder="Basic Input" />
+
+    <Login />
 
   </div>
 </template>
