@@ -42,6 +42,12 @@
 
     <button @click="addData">Add Data to Firestore</button>
 
+    <div class="test">
+      <div class="test_item" v-for="(item, index) in documents" :key="index">
+        <p>{{index+1}} -- {{ item.name }}</p>
+      </div>
+    </div>
+
   </div>
 </template>
 

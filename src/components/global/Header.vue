@@ -10,7 +10,11 @@
     {
       path: '/events',
       name: 'events',
-    }
+    },
+    {
+      path: '/calls',
+      name: 'calls',
+    },
   ])
 
 </script>
