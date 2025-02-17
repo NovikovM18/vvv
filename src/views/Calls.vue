@@ -13,7 +13,6 @@ import { ref, onUnmounted } from "vue";
 import { collection, doc, setDoc, getDoc, onSnapshot, addDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
-// Vue Refs
 const localVideo = ref<HTMLVideoElement | null>(null);
 const remoteVideo = ref<HTMLVideoElement | null>(null);
 const localStream = ref<MediaStream | null>(null);
