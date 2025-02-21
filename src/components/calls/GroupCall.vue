@@ -5,6 +5,7 @@
 
     <div v-for="(stream, id) in remoteStreams" :key="id">
       <video :ref="el => remoteVideos[id] = (el as HTMLVideoElement)" autoplay playsinline></video>
+      <span>{{ stream }}</span>
     </div>
 
     <input v-model="callId" placeholder="Enter Call ID" />
@@ -74,14 +75,14 @@
       
       newParticipants.forEach((participantId: any) => {
         if (!peerConnections[participantId]) {
-          createPeerConnection(participantId, callDoc);
+          createPeerConnection(participantId);
         }
       });
     });
   };
 
   // Создание соединения WebRTC
-  const createPeerConnection = async (participantId: any, callDoc: any) => {
+  const createPeerConnection = async (participantId: any) => {
     const pc = new RTCPeerConnection(ICE_SERVERS);
     peerConnections[participantId] = pc;
 
@@ -113,8 +114,7 @@
     listenForOffers();
   };
 
-  // Обработка входящих предложений
-  // Обработка входящих предложений
+
 const listenForOffers = () => {
   onSnapshot(collection(db, `calls/${callId.value}/offers`), async (snapshot) => {
     snapshot.docChanges().forEach(async (change) => {
@@ -123,25 +123,31 @@ const listenForOffers = () => {
         const senderId = change.doc.id;
 
         if (!peerConnections[senderId]) {
-          await createPeerConnection(senderId, doc(db, "calls", callId.value));
+          await createPeerConnection(senderId);
         }
 
         const pc = peerConnections[senderId];
-
         const signalingState = pc.signalingState as SignalingState;
 
-        if (signalingState !== "stable") {
-          console.warn("Ignoring offer because the signaling state is not stable:", signalingState);
+        // Печатаем состояние сигнализации, чтобы понять, что происходит
+        console.log("signalingState", signalingState);
+
+        if (signalingState === "have-local-offer" || signalingState === "have-remote-offer") {
+          // Игнорируем предложение, если есть локальное или удалённое предложение
+          console.warn("Ignoring incoming offer because the signaling state is not stable.");
           return;
         }
 
         // Устанавливаем удалённое описание
         await pc.setRemoteDescription(new RTCSessionDescription(offer));
+        console.log("Remote description set");
 
-        if (pc.signalingState === "have-remote-offer") {
+        // Если мы в состоянии "have-remote-offer", создаем ответ
+        if (pc.signalingState === "have-remote-offer" || pc.signalingState === "stable") {
           const answer = await pc.createAnswer();
           await pc.setLocalDescription(answer);
           await setDoc(doc(db, `calls/${callId.value}/answers`, senderId), { answer });
+          console.log("Answer sent");
         }
       }
     });
@@ -159,10 +165,16 @@ const listenForCandidates = () => {
         const pc = peerConnections[sender];
 
         if (pc) {
-          // Убедитесь, что удалённое описание установлено перед добавлением кандидата
-          const signalingState = pc.signalingState as SignalingState;
+          const signalingState = pc.signalingState as RTCSignalingState;
+
+          // Проверяем, что состояние сигнализации позволяет добавить кандидата
           if (signalingState === "have-remote-offer" || signalingState === "stable") {
-            await pc.addIceCandidate(new RTCIceCandidate(candidate));
+            try {
+              await pc.addIceCandidate(new RTCIceCandidate(candidate));
+              console.log("ICE candidate added");
+            } catch (error) {
+              console.error("Failed to add ICE candidate", error);
+            }
           } else {
             console.warn("Ignoring ICE candidate because the signaling state is not correct:", signalingState);
           }
@@ -171,6 +183,9 @@ const listenForCandidates = () => {
     });
   });
 };
+
+
+
 
 
   // Покинуть звонок
