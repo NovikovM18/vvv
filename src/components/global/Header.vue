@@ -15,6 +15,10 @@
       path: '/calls',
       name: 'calls',
     },
+    {
+      path: '/callsG',
+      name: 'callsG',
+    },
   ])
 
 </script>
