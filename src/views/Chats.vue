@@ -61,7 +61,7 @@
       try {
         await addDoc(collection(db, `rooms/${currentRoom.value}/messages`), {
           text: newMessage.value,
-          userId: user.value.uid,
+          // userId: user.value.uid,
           timestamp: new Date()
         });
         newMessage.value = '';
