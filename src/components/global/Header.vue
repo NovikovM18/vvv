@@ -12,6 +12,10 @@
       name: 'events',
     },
     {
+      path: '/chats',
+      name: 'chats',
+    },
+    {
       path: '/calls',
       name: 'calls',
     },
