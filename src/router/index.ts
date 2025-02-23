@@ -7,8 +7,8 @@ import Chats from '../views/Chats.vue'
 const routes = [
   { path: '/', component: Dashboard, name: 'Dashboard' },
   { path: '/events', component: Events, name: 'Events' },
-  { path: '/calls', component: Calls, name: 'Calls' },
   { path: '/chats', component: Chats, name: 'Chats' },
+  { path: '/calls', component: Calls, name: 'Calls' },
 ]
 
 const router = createRouter({

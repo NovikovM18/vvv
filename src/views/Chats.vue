@@ -2,7 +2,7 @@
     <div class="chat-container">
       <div class="room-selector">
         <label>Select Room:</label>
-        <select v-model="currentRoom" @change="setRoom">
+        <select v-model="currentRoom">
           <option value="general">General</option>
           <option value="tech">Tech</option>
           <option value="random">Random</option>
@@ -41,12 +41,6 @@
 
       fetchMess()
     });
-
-    const setRoom = () => {
-      console.log(currentRoom.value);
-      messages.value = [];
-      fetchMess()
-    }
 
     const fetchMess = async () => {
       const querySnapshot = await getDocs(collection(db, `rooms/${currentRoom.value}/messages`));

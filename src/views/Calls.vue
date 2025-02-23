@@ -56,7 +56,7 @@
 
     // Handle ICE Candidates (Store as a new document for each)
     peerConnection.value.onicecandidate = (event) => {
-      if (event.candidate) {
+      if (event.candidate) {        
         addDoc(collection(db, `calls/${callId.value}/candidates`), event.candidate.toJSON());
       }
     };
